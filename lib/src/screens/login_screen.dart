@@ -9,6 +9,8 @@ class LoginScreen extends StatefulWidget {
 
 class LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
+  String email = '';
+  String password = '';
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +41,9 @@ class LoginScreenState extends State<LoginScreen> {
         // Should return null if valid, else the error message if invalid
         return (value.contains('@')) ? null : 'Invalid email';
       },
+      onSaved: (String value) {
+        email = value;
+      },
     );
   }
 
@@ -51,7 +56,10 @@ class LoginScreenState extends State<LoginScreen> {
       ),
       validator: (String value) {
         return (value.length > 3) ? null : 'Password is too short';
-      }
+      },
+      onSaved: (String value) {
+        password = value;
+      },
     );
   }
 
@@ -60,7 +68,10 @@ class LoginScreenState extends State<LoginScreen> {
       color: Colors.lightBlue,
       child: Text('Submit'),
       onPressed: () {
-        formKey.currentState.validate();
+        if (formKey.currentState.validate()) {
+          formKey.currentState.save();
+          print('Time to post email and password');
+        }
       },
     );
   }
